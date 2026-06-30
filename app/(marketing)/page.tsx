@@ -1,37 +1,344 @@
 import Link from "next/link";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  MapsLocation01Icon,
+  AngleIcon,
+  MapsIcon,
+  ArrowRight01Icon
+} from "@hugeicons/core-free-icons";
+import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LandingPage() {
-    return (
-        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-50">
-            <header className="px-4 lg:px-6 h-14 flex items-center border-b border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                <Link className="flex items-center justify-center gap-2 font-bold text-xl" href="/">
-                    <span className="text-emerald-600">GeoSmart</span>
-                </Link>
-                <nav className="ml-auto flex gap-4 sm:gap-6">
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/dashboard">
-                        Dashboard
-                    </Link>
-                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/calculator/map">
-                        Map Calculator
-                    </Link>
-                </nav>
-            </header>
-            <main className="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-4xl mx-auto">
-                <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4">
-                    Real-Estate & Survey Calculations Made <span className="text-emerald-600">Smart</span>
-                </h1>
-                <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mb-8">
-                    Plot properties, calculate exact areas in local units (Donum, Qasaba), compute custom survey geometries, and generate professional PDF reports.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                    <Link href="/dashboard" className="px-6 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition">
-                        Go to Dashboard
-                    </Link>
-                    <Link href="/calculator/map" className="px-6 py-3 rounded-lg border border-slate-300 dark:border-zinc-700 font-medium hover:bg-slate-100 dark:hover:bg-zinc-800 transition">
-                        Try Map Calculator
-                    </Link>
-                </div>
-            </main>
+  return (
+    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-zinc-50 transition-colors duration-300">
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 dark:border-zinc-800/40 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <Logo size="lg" />
+
+          {/* Nav links - Center */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link
+              href="#features"
+              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+            >
+              Features
+            </Link>
+            <Link
+              href="#pricing"
+              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="#docs"
+              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+            >
+              Docs
+            </Link>
+          </nav>
+
+          {/* Nav Actions - Right */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Link href="/calculator/map">
+              <Button
+                variant="default"
+                size="sm"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm shadow-emerald-600/10 cursor-pointer"
+              >
+                Start Free
+              </Button>
+            </Link>
+          </div>
         </div>
-    );
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1">
+        {/* Glow Effects */}
+        <div className="relative overflow-hidden">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-505/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+
+          {/* Hero Section */}
+          <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xs text-xs font-medium text-slate-600 dark:text-zinc-400 mb-6 animate-pulse">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+              Next-Gen Surveying & Calculations
+            </div>
+
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
+              Real-Estate & Survey Calculations Made{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-500">
+                Smart
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Plot property boundaries, calculate exact areas in localized units, compute custom survey geometries, and export professional reports instantly.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link href="/calculator/map">
+                <Button className="w-full sm:w-auto px-8 py-6 text-base bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+                  Open Calculator <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
+                </Button>
+              </Link>
+              <Link href="#demo">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto px-8 py-6 text-base font-semibold border-slate-350 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 rounded-2xl transition hover:scale-[1.02] cursor-pointer"
+                >
+                  Watch Demo
+                </Button>
+              </Link>
+            </div>
+          </section>
+
+          {/* Stats Bar */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-20">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-950/60 backdrop-blur-md shadow-sm">
+
+              {/* Stat 1 */}
+              <div className="text-center p-4 border-r last:border-0 border-slate-200 dark:border-zinc-800/80">
+                <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-2">
+                  3
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-zinc-400">
+                  Calculation Modes
+                </div>
+              </div>
+
+              {/* Stat 2 */}
+              <div className="text-center p-4 sm:border-r border-slate-200 dark:border-zinc-800/80 last:border-0">
+                <div className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-emerald-500 mb-2 flex items-center justify-center gap-1.5">
+                  <span className="text-sm font-semibold text-slate-500 dark:text-zinc-400">م²</span>
+                  <span className="block border-l h-4 border-slate-300 dark:border-zinc-700" />
+                  <span dir="rtl" className="font-sans text-xl sm:text-2xl inline-block text-emerald-600 dark:text-emerald-500 hover:scale-105 transition-transform">دونم</span>
+                  <span className="block border-l h-4 border-slate-300 dark:border-zinc-700" />
+                  <span dir="rtl" className="font-sans text-xl sm:text-2xl inline-block text-emerald-600 dark:text-emerald-500">هكتار</span>
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-zinc-400">
+                  Localized Units
+                </div>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="text-center p-4 border-r border-slate-200 dark:border-zinc-800/80 last:border-0">
+                <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-2">
+                  PDF + DXF
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-zinc-400">
+                  Professional Export
+                </div>
+              </div>
+
+              {/* Stat 4 */}
+              <div className="text-center p-4 last:border-0">
+                <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-2">
+                  100%
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-zinc-400">
+                  Offline PWA Ready
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        {/* Mode Cards Section */}
+        <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Explore Our Calculation Modes
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400">
+              Switch seamlessly between three optimized workflows designed for landowners, surveyors, and real estate professionals.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1: Map Mode */}
+            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-500">
+                    <HugeiconsIcon icon={MapsLocation01Icon} className="size-6" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 border border-emerald-200/30">
+                    Free
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">
+                  Map Mode
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-zinc-400 mb-6 leading-relaxed">
+                  Interactive satellite map interface. Plot land boundaries, adjust marker perimeters via drag & drop, and visually capture property areas in real-time.
+                </p>
+                <ul className="space-y-2.5 mb-8 text-xs text-slate-600 dark:text-zinc-400">
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Google Maps Satellite Layer
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Live Elevation Profiling
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Auto-closing Polygonal Areas
+                  </li>
+                </ul>
+              </div>
+              <Link href="/calculator/map">
+                <Button className="w-full justify-center bg-slate-900  hover:bg-slate-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white rounded-xl py-5 cursor-pointer">
+                  Launch Map Mode
+                </Button>
+              </Link>
+            </div>
+
+            {/* Card 2: Geometric Mode */}
+            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-500">
+                    <HugeiconsIcon icon={AngleIcon} className="size-6" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 border border-emerald-200/30">
+                    Free
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">
+                  Geometric Mode
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-zinc-400 mb-6 leading-relaxed">
+                  Enter physical measurements like side lengths, angles, diagonals, or survey bearings. Get mathematically precise area calculations for custom shapes.
+                </p>
+                <ul className="space-y-2.5 mb-8 text-xs text-slate-600 dark:text-zinc-400">
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Side-Angle-Side Triangulation
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Compass Bearing Entry
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Instant Unit conversion
+                  </li>
+                </ul>
+              </div>
+              <Link href="/calculator/geometric">
+                <Button className="w-full justify-center bg-slate-900 hover:bg-slate-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white rounded-xl py-5 cursor-pointer">
+                  Launch Geometric Mode
+                </Button>
+              </Link>
+            </div>
+
+            {/* Card 3: Professional Mode */}
+            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-650 dark:text-emerald-450 border border-emerald-500/10">
+                    <HugeiconsIcon icon={MapsIcon} className="size-6 text-emerald-550" />
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-400 border border-amber-250/20 animate-pulse">
+                    Pro
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">
+                  Professional Mode
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-zinc-400 mb-6 leading-relaxed">
+                  Advanced toolkit for land partitions, complex cadastral layouts, CAD-grade DXF exports, custom scaling, and secure client sharing hubs.
+                </p>
+                <ul className="space-y-2.5 mb-8 text-xs text-slate-600 dark:text-zinc-400">
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    DXF / CAD Vector Export
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Subdivision / Partition Algorithms
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="size-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Shareable Client Reports
+                  </li>
+                </ul>
+              </div>
+              <Link href="/calculator/professional">
+                <Button className="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-5 cursor-pointer">
+                  Launch Pro Mode
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Watch Demo Video Mock/Section */}
+        <section id="demo" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+          <div className="p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/20 backdrop-blur-md relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none" />
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4 flex items-center justify-center gap-2">
+                Watch GeoSmart in Action
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-zinc-400 mb-8 leading-relaxed">
+                See how easily you can customize, measure, and share survey outputs in less than 2 minutes.
+              </p>
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-850 bg-slate-950 flex items-center justify-center shadow-lg group">
+                {/* Glow layer */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-transparent opacity-50 group-hover:opacity-75 transition-opacity" />
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                  <div className="p-5 rounded-full bg-emerald-600 text-white cursor-pointer hover:scale-110 active:scale-95 transition shadow-lg shadow-emerald-600/30">
+                    <svg className="size-8 fill-current" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-semibold text-zinc-400 tracking-widest uppercase">
+                    Interactive Walkthrough Preview
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-250/60 dark:border-zinc-800/40 bg-white dark:bg-[#09090b]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <Logo size="md" />
+          </div>
+          <p className="text-xs text-slate-500 dark:text-zinc-500">
+            &copy; {new Date().getFullYear()} GeoSmart. All rights reserved. Professional Real-Estate Surveying Platform.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
 }
