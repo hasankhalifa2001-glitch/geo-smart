@@ -1,4 +1,8 @@
+"use client";
+
+import { useState, useEffect, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
+import { motion, useMotionValue, useMotionTemplate, animate } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   MapsLocation01Icon,
@@ -13,7 +17,131 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 
+const cardHoverTransition = { type: "spring" as const, stiffness: 300, damping: 20 };
+
+const rotatingWords = ["Smart", "Precise", "Instant", "Simple"];
+const TYPING_SPEED_MS = 100;
+const DELETING_SPEED_MS = 75;
+const PAUSE_AFTER_TYPED_MS = 2000;
+const PAUSE_AFTER_DELETED_MS = 300;
+
+const gradientTextClass =
+  "bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-500";
+
+function RotatingTypewriter() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [substring, setSubstring] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    const currentWord = rotatingWords[wordIndex];
+
+    if (isTyping) {
+      if (substring.length < currentWord.length) {
+        const timeout = setTimeout(() => {
+          setSubstring(currentWord.slice(0, substring.length + 1));
+        }, TYPING_SPEED_MS);
+        return () => clearTimeout(timeout);
+      }
+
+      const timeout = setTimeout(() => {
+        setIsTyping(false);
+      }, PAUSE_AFTER_TYPED_MS);
+      return () => clearTimeout(timeout);
+    }
+
+    if (substring.length > 0) {
+      const timeout = setTimeout(() => {
+        setSubstring(substring.slice(0, -1));
+      }, DELETING_SPEED_MS);
+      return () => clearTimeout(timeout);
+    }
+
+    const timeout = setTimeout(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+      setIsTyping(true);
+    }, PAUSE_AFTER_DELETED_MS);
+    return () => clearTimeout(timeout);
+  }, [wordIndex, substring, isTyping]);
+
+  return (
+    <span className="inline-flex items-baseline">
+      <motion.span className={gradientTextClass}>{substring}</motion.span>
+      <motion.span
+        className={gradientTextClass}
+        animate={{ opacity: [1, 0, 1] }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+        aria-hidden
+      >
+        |
+      </motion.span>
+    </span>
+  );
+}
+
+function ModeSpotlightCard({
+  href,
+  buttonLabel,
+  buttonClassName,
+  children,
+}: {
+  href: string;
+  buttonLabel: string;
+  buttonClassName: string;
+  children: ReactNode;
+}) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent<HTMLElement>) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  const spotlightBackground = useMotionTemplate`radial-gradient(250px circle at ${mouseX}px ${mouseY}px, rgba(16, 185, 129, 0.15), transparent 80%)`;
+
+  return (
+    <motion.div
+      className="group relative flex flex-col justify-between overflow-hidden p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 group-hover:border-emerald-500/30 transition-colors duration-300 shadow-sm hover:shadow-emerald-500/5"
+      onMouseMove={handleMouseMove}
+      whileHover={{ y: -6, scale: 1.015 }}
+      transition={cardHoverTransition}
+    >
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{ background: spotlightBackground }}
+      />
+      <div className="relative z-10 flex min-h-full flex-1 flex-col justify-between">
+        <div>{children}</div>
+        <Link href={href} className="mt-6 block">
+          <Button className={buttonClassName}>{buttonLabel}</Button>
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function LandingPage() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const glowSpring = { type: "spring" as const, stiffness: 60, damping: 15, mass: 0.1 };
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent<HTMLElement>) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  function handleMouseLeave({ currentTarget }: MouseEvent<HTMLElement>) {
+    const { width, height } = currentTarget.getBoundingClientRect();
+    animate(mouseX, width / 2, glowSpring);
+    animate(mouseY, height / 2, glowSpring);
+  }
+
+  const glowBackground = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 223, 137, 0.25), rgba(16, 185, 129, 0.1) 40%, transparent 65%)`;
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-zinc-50 transition-colors duration-300">
       {/* Navbar */}
@@ -69,7 +197,11 @@ export default function LandingPage() {
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
           {/* Hero Section */}
-          <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center relative isolation-isolate">
+          <section
+            className="group/hero max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center relative isolation-isolate"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
 
             {/* Technical grid + ambient glow background */}
             <div className="absolute inset-0 max-w-7xl mx-auto h-[700px] pointer-events-none z-0 isolation-isolate">
@@ -83,12 +215,10 @@ export default function LandingPage() {
                     "radial-gradient(circle at center, white 30%, transparent 70%)"
                 }}
               />
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[480px] rounded-full blur-[130px] opacity-35 dark:opacity-20"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at center, #00df89 0%, rgba(16, 185, 129, 0.3) 50%, rgba(9, 9, 11, 0) 75%)"
-                }}
+              <motion.div
+                className="absolute inset-0 pointer-events-none z-0 blur-[130px]"
+                style={{ background: glowBackground }}
+                transition={{ type: "spring", stiffness: 60, damping: 15, mass: 0.1 }}
               />
             </div>
 
@@ -100,10 +230,7 @@ export default function LandingPage() {
               </div>
 
               <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
-                Real-Estate & Survey Calculations Made{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-500">
-                  Smart
-                </span>
+                Real-Estate & Survey Calculations Made <RotatingTypewriter />
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -193,7 +320,11 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card 1: Map Mode */}
-            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+            <ModeSpotlightCard
+              href="/calculator/map"
+              buttonLabel="Launch Map Mode"
+              buttonClassName="w-full justify-center bg-slate-900 dark:bg-zinc-800 text-white rounded-xl py-5 cursor-pointer transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white"
+            >
               <div>
                 <div className="flex justify-between items-start mb-6">
                   <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-500">
@@ -230,15 +361,14 @@ export default function LandingPage() {
                   </li>
                 </ul>
               </div>
-              <Link href="/calculator/map">
-                <Button className="w-full justify-center bg-slate-900  hover:bg-slate-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white rounded-xl py-5 cursor-pointer">
-                  Launch Map Mode
-                </Button>
-              </Link>
-            </div>
+            </ModeSpotlightCard>
 
             {/* Card 2: Geometric Mode */}
-            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+            <ModeSpotlightCard
+              href="/calculator/geometric"
+              buttonLabel="Launch Geometric Mode"
+              buttonClassName="w-full justify-center bg-slate-900 dark:bg-zinc-800 text-white rounded-xl py-5 cursor-pointer transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white"
+            >
               <div>
                 <div className="flex justify-between items-start mb-6">
                   <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-500">
@@ -275,15 +405,14 @@ export default function LandingPage() {
                   </li>
                 </ul>
               </div>
-              <Link href="/calculator/geometric">
-                <Button className="w-full justify-center bg-slate-900 hover:bg-slate-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white rounded-xl py-5 cursor-pointer">
-                  Launch Geometric Mode
-                </Button>
-              </Link>
-            </div>
+            </ModeSpotlightCard>
 
             {/* Card 3: Professional Mode */}
-            <div className="group relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 hover:border-emerald-500/50 dark:hover:border-emerald-500/30 transition-all duration-300 shadow-sm hover:shadow-emerald-500/5">
+            <ModeSpotlightCard
+              href="/calculator/professional"
+              buttonLabel="Launch Pro Mode"
+              buttonClassName="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-5 cursor-pointer transition-colors duration-300"
+            >
               <div>
                 <div className="flex justify-between items-start mb-6">
                   <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-650 dark:text-emerald-450 border border-emerald-500/10">
@@ -320,12 +449,7 @@ export default function LandingPage() {
                   </li>
                 </ul>
               </div>
-              <Link href="/calculator/professional">
-                <Button className="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-5 cursor-pointer">
-                  Launch Pro Mode
-                </Button>
-              </Link>
-            </div>
+            </ModeSpotlightCard>
           </div>
         </section>
 
