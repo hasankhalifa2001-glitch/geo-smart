@@ -4,7 +4,10 @@ import {
   MapsLocation01Icon,
   AngleIcon,
   MapsIcon,
-  ArrowRight01Icon
+  ArrowRight01Icon,
+  LayoutGridIcon,
+  Ticket01Icon,
+  Book02Icon,
 } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
@@ -22,20 +25,23 @@ export default function LandingPage() {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="#features"
-              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+              className="group flex items-center text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
             >
+              <HugeiconsIcon icon={LayoutGridIcon} className="size-4 mr-1.5 opacity-70 group-hover:opacity-100 transition-opacity" />
               Features
             </Link>
             <Link
               href="#pricing"
-              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+              className="group flex items-center text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
             >
+              <HugeiconsIcon icon={Ticket01Icon} className="size-4 mr-1.5 opacity-70 group-hover:opacity-100 transition-opacity" />
               Pricing
             </Link>
             <Link
               href="#docs"
-              className="text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+              className="group flex items-center text-sm font-medium hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
             >
+              <HugeiconsIcon icon={Book02Icon} className="size-4 mr-1.5 opacity-70 group-hover:opacity-100 transition-opacity" />
               Docs
             </Link>
           </nav>
@@ -45,9 +51,9 @@ export default function LandingPage() {
             <ThemeToggle />
             <Link href="/calculator/map">
               <Button
-                variant="default"
+                variant="ghost"
                 size="sm"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm shadow-emerald-600/10 cursor-pointer"
+                className="border border-emerald-500/30 bg-transparent text-emerald-400 font-medium rounded-xl px-4 py-2 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all duration-200 cursor-pointer"
               >
                 Start Free
               </Button>
@@ -106,8 +112,8 @@ export default function LandingPage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Link href="/calculator/map">
-                  <Button className="w-full sm:w-auto px-8 py-6 text-base bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
-                    Open Calculator <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
+                  <Button className="group w-full sm:w-auto px-8 py-6 text-base bg-linear-to-r from-[#00df89] to-[#10b981] text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 hover:from-[#00f094] hover:to-[#10c88b] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+                    Open Calculator <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link href="#demo">
