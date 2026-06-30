@@ -60,40 +60,65 @@ export default function LandingPage() {
       <main className="flex-1">
         {/* Glow Effects */}
         <div className="relative overflow-hidden">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-505/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
           {/* Hero Section */}
-          <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xs text-xs font-medium text-slate-600 dark:text-zinc-400 mb-6 animate-pulse">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-              Next-Gen Surveying & Calculations
+          <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center relative isolation-isolate">
+
+            {/* Technical grid + ambient glow background */}
+            <div className="absolute inset-0 max-w-7xl mx-auto h-[700px] pointer-events-none z-0 isolation-isolate">
+              <div
+                className="absolute inset-0 opacity-[0.12] dark:opacity-[0.07]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgb(16, 185, 129) 1px, transparent 1px), linear-gradient(to bottom, rgb(16, 185, 129) 1px, transparent 1px)",
+                  backgroundSize: "45px 45px",
+                  maskImage:
+                    "radial-gradient(circle at center, white 30%, transparent 70%)"
+                }}
+              />
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[480px] rounded-full blur-[130px] opacity-35 dark:opacity-20"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at center, #00df89 0%, rgba(16, 185, 129, 0.3) 50%, rgba(9, 9, 11, 0) 75%)"
+                }}
+              />
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
-              Real-Estate & Survey Calculations Made{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-500">
-                Smart
-              </span>
-            </h1>
+            {/* Content Wrapper */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xs text-xs font-medium text-slate-600 dark:text-zinc-400 mb-6">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                Next-Gen Surveying & Calculations
+              </div>
 
-            <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Plot property boundaries, calculate exact areas in localized units, compute custom survey geometries, and export professional reports instantly.
-            </p>
+              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
+                Real-Estate & Survey Calculations Made{" "}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 dark:from-emerald-400 dark:via-teal-300 dark:to-emerald-500">
+                  Smart
+                </span>
+              </h1>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/calculator/map">
-                <Button className="w-full sm:w-auto px-8 py-6 text-base bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
-                  Open Calculator <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
-                </Button>
-              </Link>
-              <Link href="#demo">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto px-8 py-6 text-base font-semibold border-slate-350 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 rounded-2xl transition hover:scale-[1.02] cursor-pointer"
-                >
-                  Watch Demo
-                </Button>
-              </Link>
+              <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Plot property boundaries, calculate exact areas in localized units, compute custom survey geometries, and export professional reports instantly.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link href="/calculator/map">
+                  <Button className="w-full sm:w-auto px-8 py-6 text-base bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+                    Open Calculator <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
+                  </Button>
+                </Link>
+                <Link href="#demo">
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto px-8 py-6 text-base font-semibold border-slate-350 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-900 rounded-2xl transition hover:scale-[1.02] cursor-pointer"
+                  >
+                    Watch Demo
+                  </Button>
+                </Link>
+              </div>
             </div>
           </section>
 
