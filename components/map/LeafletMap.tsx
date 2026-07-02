@@ -29,6 +29,8 @@ import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
+import MapProviderToggle from "@/components/map/MapProviderToggle";
+
 const DEFAULT_CENTER: [number, number] = [33.51, 36.29];
 
 const DEFAULT_ZOOM = 13;
@@ -206,6 +208,7 @@ function SelfIntersectionBanner() {
 
 export default function LeafletMap() {
     const markers = useMapStore((s) => s.markers);
+    const mapProvider = useMapStore((s) => s.mapProvider);
 
     const [tileLayer, setTileLayer] = useState<TileLayerType>("osm");
 
@@ -222,15 +225,27 @@ export default function LeafletMap() {
                 scrollWheelZoom
                 maxZoom={22}
             >
-                {tileLayer === "osm" ? (
+                {mapProvider === "google" ? (
                     <TileLayer
+                        key="google-satellite"
+                        attribution="&copy; Google"
+                        url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+                        maxZoom={22}
+                    />
+                ) : tileLayer === "osm" ? (
+                    <TileLayer
+                        key="leaflet-osm"
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         url={OSM_URL}
                         maxNativeZoom={18}
                         maxZoom={22}
                     />
                 ) : (
-                    <TileLayer attribution="Tiles &copy; Esri" url={ESRI_URL} />
+                    <TileLayer
+                        key="leaflet-satellite"
+                        attribution="Tiles &copy; Esri"
+                        url={ESRI_URL}
+                    />
                 )}
 
                 <MapClickHandler />
@@ -262,6 +277,8 @@ export default function LeafletMap() {
             </MapContainer>
 
             <SelfIntersectionBanner />
+
+            <MapProviderToggle />
 
             <button
                 type="button"

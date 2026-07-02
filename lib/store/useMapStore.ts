@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export type UnitType = "m2" | "donum" | "hectare" | "qasaba";
+export type MapProviderType = "leaflet" | "google";
 
 interface MapState {
     markers: [number, number][];
@@ -8,6 +9,7 @@ interface MapState {
     perimeterM: number | null;
     isSelfIntersecting: boolean;
     unitPreference: UnitType;
+    mapProvider: MapProviderType;
     addMarker: (marker: [number, number]) => void;
     updateMarker: (index: number, marker: [number, number]) => void;
     removeMarker: (index: number) => void;
@@ -18,6 +20,7 @@ interface MapState {
         isSelfIntersecting?: boolean
     ) => void;
     setUnit: (unit: UnitType) => void;
+    setMapProvider: (provider: MapProviderType) => void;
 }
 
 export const useMapStore = create<MapState>((set) => ({
@@ -26,6 +29,7 @@ export const useMapStore = create<MapState>((set) => ({
     perimeterM: null,
     isSelfIntersecting: false,
     unitPreference: "m2",
+    mapProvider: "leaflet",
 
     addMarker: (marker) =>
         set((state) => ({
@@ -60,5 +64,10 @@ export const useMapStore = create<MapState>((set) => ({
     setUnit: (unitPreference) =>
         set(() => ({
             unitPreference,
+        })),
+
+    setMapProvider: (mapProvider) =>
+        set(() => ({
+            mapProvider,
         })),
 }));
