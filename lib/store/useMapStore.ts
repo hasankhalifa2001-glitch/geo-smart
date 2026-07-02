@@ -10,6 +10,7 @@ interface MapState {
     isSelfIntersecting: boolean;
     unitPreference: UnitType;
     mapProvider: MapProviderType;
+    setMarkers: (markers: [number, number][]) => void;
     addMarker: (marker: [number, number]) => void;
     updateMarker: (index: number, marker: [number, number]) => void;
     removeMarker: (index: number) => void;
@@ -30,6 +31,11 @@ export const useMapStore = create<MapState>((set) => ({
     isSelfIntersecting: false,
     unitPreference: "m2",
     mapProvider: "leaflet",
+
+    setMarkers: (markers) =>
+        set(() => ({
+            markers,
+        })),
 
     addMarker: (marker) =>
         set((state) => ({
