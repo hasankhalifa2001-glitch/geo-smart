@@ -55,6 +55,43 @@ export default function ResultsSidebar() {
     const [latInput, setLatInput] = useState("");
     const [lngInput, setLngInput] = useState("");
     const [coordError, setCoordError] = useState<string | null>(null);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+
+    const handleUseCurrentLocation = () => {
+        if (!navigator.geolocation) {
+            setCoordError("Geolocation is not supported by your browser.");
+            return;
+        }
+
+        setLoadingLocation(true);
+        setCoordError(null);
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                addMarker([latitude, longitude]);
+                setLoadingLocation(false);
+            },
+            (error) => {
+                setLoadingLocation(false);
+                let message = "Unable to retrieve your location.";
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        message = "Location permission denied. Please enable location services in your browser/device settings.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        message = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        message = "Location request timed out. Please try again.";
+                        break;
+                }
+                setCoordError(message);
+                alert(message);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    };
 
     const handleAddManualPoint = (e: React.FormEvent) => {
         e.preventDefault();
@@ -247,6 +284,34 @@ export default function ResultsSidebar() {
                                     <path d="M12 5v14M5 12h14" />
                                 </svg>
                                 Add Point
+                            </Button>
+                            <Button
+                                type="button"
+                                onClick={handleUseCurrentLocation}
+                                disabled={loadingLocation}
+                                variant="outline"
+                                className="h-9 w-full justify-center gap-1.5 border-emerald-500/30 hover:border-emerald-500 bg-transparent hover:bg-emerald-50/5 dark:hover:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-xl cursor-pointer"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="14"
+                                    height="14"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className={cn("shrink-0", loadingLocation && "animate-spin")}
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <circle cx="12" cy="12" r="3" />
+                                    <line x1="12" y1="1" x2="12" y2="4" />
+                                    <line x1="12" y1="20" x2="12" y2="23" />
+                                    <line x1="1" y1="12" x2="4" y2="12" />
+                                    <line x1="20" y1="12" x2="23" y2="12" />
+                                </svg>
+                                {loadingLocation ? "Fetching Location..." : "Use My Current Location"}
                             </Button>
                         </form>
                     </div>
