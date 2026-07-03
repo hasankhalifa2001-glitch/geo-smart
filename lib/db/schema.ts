@@ -4,6 +4,7 @@ export const users = pgTable("users", {
     id: text("id").primaryKey(),
     email: text("email").notNull().unique(),
     name: text("name"),
+    passwordHash: text("password_hash"),
     tier: text("tier").default("free").notNull(), // 'free' | 'pro' | 'enterprise'
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });

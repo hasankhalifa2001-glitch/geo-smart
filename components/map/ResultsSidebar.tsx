@@ -12,6 +12,9 @@ import { convertArea } from "@/lib/utils/units";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Tick01Icon } from "@hugeicons/core-free-icons";
 
 const UNITS: { key: UnitType; label: string }[] = [
     { key: "m2", label: "m²" },
@@ -43,6 +46,9 @@ export default function ResultsSidebar() {
     const removeMarker = useMapStore((s) => s.removeMarker);
     const clearMarkers = useMapStore((s) => s.clearMarkers);
 
+    const pathname = usePathname();
+    const [saving, setSaving] = useState(false);
+
     const displayArea =
         areaM2 !== null && !isSelfIntersecting
             ? convertArea(areaM2, unitPreference)
@@ -50,6 +56,43 @@ export default function ResultsSidebar() {
 
     const activeUnitLabel =
         UNITS.find((u) => u.key === unitPreference)?.label ?? "m²";
+
+    const handleSaveProject = async () => {
+        const name = prompt("Enter a name for your project:");
+        if (!name) return;
+
+        let mode = "map";
+        if (pathname.includes("geometric")) mode = "geometric";
+        else if (pathname.includes("professional")) mode = "professional";
+
+        setSaving(true);
+        try {
+            const res = await fetch("/api/projects", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name,
+                    mode,
+                    coordinates: markers,
+                    areaM2,
+                    perimeterM,
+                    unitPreference,
+                }),
+            });
+
+            if (res.ok) {
+                alert("Project saved successfully!");
+            } else {
+                const errData = await res.json();
+                alert(`Failed to save project: ${errData.error || "Unknown error"}`);
+            }
+        } catch (err) {
+            console.error(err);
+            alert("An error occurred while saving project.");
+        } finally {
+            setSaving(false);
+        }
+    };
 
     return (
         <aside className="flex w-full shrink-0 flex-col border-l border-slate-200/60 bg-white dark:border-zinc-800/40 dark:bg-[#09090b] sm:w-80 lg:w-96">
@@ -170,6 +213,15 @@ export default function ResultsSidebar() {
 
                     {/* Action buttons */}
                     <div className="flex flex-col gap-2 pt-2">
+                        <Button
+                            onClick={handleSaveProject}
+                            disabled={markers.length === 0 || saving}
+                            className="w-full justify-start gap-2 bg-emerald-600 hover:bg-emerald-500 text-white cursor-pointer"
+                        >
+                            <HugeiconsIcon icon={Tick01Icon} className="size-4" />
+                            {saving ? "Saving..." : "Save Project"}
+                        </Button>
+
                         <Button
                             variant="outline"
                             className="relative w-full justify-start gap-2 opacity-75"
