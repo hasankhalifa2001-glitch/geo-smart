@@ -12,6 +12,7 @@ import { convertArea } from "@/lib/utils/units";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Tick01Icon } from "@hugeicons/core-free-icons";
@@ -45,9 +46,45 @@ export default function ResultsSidebar() {
     const setUnit = useMapStore((s) => s.setUnit);
     const removeMarker = useMapStore((s) => s.removeMarker);
     const clearMarkers = useMapStore((s) => s.clearMarkers);
+    const addMarker = useMapStore((s) => s.addMarker);
 
     const pathname = usePathname();
     const [saving, setSaving] = useState(false);
+
+    // Manual coordinates state
+    const [latInput, setLatInput] = useState("");
+    const [lngInput, setLngInput] = useState("");
+    const [coordError, setCoordError] = useState<string | null>(null);
+
+    const handleAddManualPoint = (e: React.FormEvent) => {
+        e.preventDefault();
+        setCoordError(null);
+
+        const latVal = latInput.trim();
+        const lngVal = lngInput.trim();
+
+        if (!latVal || !lngVal) {
+            setCoordError("Please enter both latitude and longitude.");
+            return;
+        }
+
+        const lat = parseFloat(latVal);
+        const lng = parseFloat(lngVal);
+
+        if (isNaN(lat) || lat < -90 || lat > 90) {
+            setCoordError("Latitude must be a valid number between -90 and 90.");
+            return;
+        }
+
+        if (isNaN(lng) || lng < -180 || lng > 180) {
+            setCoordError("Longitude must be a valid number between -180 and 180.");
+            return;
+        }
+
+        addMarker([lat, lng]);
+        setLatInput("");
+        setLngInput("");
+    };
 
     const displayArea =
         areaM2 !== null && !isSelfIntersecting
@@ -163,6 +200,55 @@ export default function ResultsSidebar() {
                                 </button>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Add Point Manually */}
+                    <div className="rounded-2xl border border-slate-200 p-4 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/20">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+                            Add Point Manually
+                        </p>
+                        <form onSubmit={handleAddManualPoint} className="flex flex-col gap-3">
+                            <div className="grid grid-cols-2 gap-2.5">
+                                <div className="flex flex-col gap-1.5">
+                                    <span className="text-[10px] font-medium text-slate-400 dark:text-zinc-500 uppercase tracking-wider">
+                                        Latitude
+                                    </span>
+                                    <Input
+                                        type="text"
+                                        placeholder="e.g. 35.392938"
+                                        value={latInput}
+                                        onChange={(e) => setLatInput(e.target.value)}
+                                        className="h-9 px-3 text-xs bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 rounded-xl focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 dark:focus-visible:border-emerald-500/50"
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <span className="text-[10px] font-medium text-slate-400 dark:text-zinc-500 uppercase tracking-wider">
+                                        Longitude
+                                    </span>
+                                    <Input
+                                        type="text"
+                                        placeholder="e.g. 35.920186"
+                                        value={lngInput}
+                                        onChange={(e) => setLngInput(e.target.value)}
+                                        className="h-9 px-3 text-xs bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 rounded-xl focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 dark:focus-visible:border-emerald-500/50"
+                                    />
+                                </div>
+                            </div>
+                            {coordError && (
+                                <p className="text-xs text-red-500 dark:text-red-400">
+                                    {coordError}
+                                </p>
+                            )}
+                            <Button
+                                type="submit"
+                                className="h-9 w-full justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl cursor-pointer"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" color="currentColor" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg>
+                                Add Point
+                            </Button>
+                        </form>
                     </div>
 
                     {/* Coordinate list */}
