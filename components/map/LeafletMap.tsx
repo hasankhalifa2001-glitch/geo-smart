@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect, useRef } from "react";
 import {
     MapContainer,
     TileLayer,
@@ -88,6 +88,34 @@ function MapClickHandler() {
             addMarker([e.latlng.lat, e.latlng.lng]);
         },
     });
+
+    return null;
+}
+
+function MapBoundsHandler() {
+    const map = useMap();
+    const markers = useMapStore((s) => s.markers);
+    const prevMarkersRef = useRef<string>("");
+
+    useEffect(() => {
+        if (!markers || markers.length === 0) return;
+
+        const markersKey = JSON.stringify(markers);
+        if (markersKey === prevMarkersRef.current) return;
+
+        const prevLength = prevMarkersRef.current ? JSON.parse(prevMarkersRef.current).length : 0;
+
+        if (prevLength === 0 && markers.length > 0) {
+            if (markers.length === 1) {
+                map.setView(markers[0], 15);
+            } else {
+                const bounds = L.latLngBounds(markers);
+                map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
+            }
+        }
+
+        prevMarkersRef.current = markersKey;
+    }, [markers, map]);
 
     return null;
 }
@@ -225,6 +253,8 @@ export default function LeafletMap() {
                 scrollWheelZoom
                 maxZoom={22}
             >
+                <MapBoundsHandler />
+
                 {mapProvider === "google" ? (
                     <TileLayer
                         key="google-satellite"
