@@ -8,11 +8,11 @@ import {
   MapsLocation01Icon,
   AngleIcon,
   MapsIcon,
-  DashboardSpeedIcon,
-  UserCircleIcon
+  DashboardSpeedIcon
 } from "@hugeicons/core-free-icons";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ProfileDropdown } from "@/components/ProfileDropdown";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -105,11 +105,7 @@ export default function AppLayout({
 
           <ThemeToggle />
 
-          <div className="relative group cursor-pointer">
-            <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-zinc-800 flex items-center justify-center border border-slate-350 dark:border-zinc-700 hover:border-emerald-500 dark:hover:border-emerald-500/50 transition">
-              <HugeiconsIcon icon={UserCircleIcon} className="size-5 text-slate-550 dark:text-zinc-400" />
-            </div>
-          </div>
+          <ProfileDropdown />
         </div>
       </header>
 
