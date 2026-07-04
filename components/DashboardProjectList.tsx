@@ -12,9 +12,9 @@ import {
     CreditCardIcon,
     Search01Icon,
     LoadingIcon,
-    Tick01Icon,
 } from "@hugeicons/core-free-icons";
 import { convertArea, UnitType } from "@/lib/utils/units";
+import { motion } from "framer-motion";
 
 interface Project {
     id: string;
@@ -47,6 +47,7 @@ export default function DashboardProjectList({
     const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
     const [searchQuery, setSearchQuery] = useState("");
     const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
+    const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
     // Filter projects by search query
     const filteredProjects = projects.filter((project) =>
@@ -66,6 +67,17 @@ export default function DashboardProjectList({
             (t) => t.projectId === projectId && t.status === "pending"
         );
     };
+
+    // Close dropdowns on outside click
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setOpenDropdownId(null);
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     // Poll for status of pending transactions
     useEffect(() => {
@@ -150,12 +162,12 @@ export default function DashboardProjectList({
     const getModeBadgeClass = (mode: string) => {
         switch (mode) {
             case "map":
-                return "bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-900/30";
+                return "bg-blue-500/10 text-blue-400 border border-blue-500/20";
             case "geometric":
-                return "bg-purple-100 text-purple-800 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-200 dark:border-purple-900/30";
+                return "bg-purple-500/10 text-purple-400 border border-purple-500/20";
             case "professional":
             default:
-                return "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-900/30";
+                return "bg-amber-500/10 text-amber-400 border border-amber-500/20";
         }
     };
 
@@ -164,7 +176,7 @@ export default function DashboardProjectList({
             {/* Search and Action Row */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center">
                 <div className="relative flex-1 max-w-md">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-500">
                         <HugeiconsIcon icon={Search01Icon} className="size-5" />
                     </div>
                     <input
@@ -172,14 +184,14 @@ export default function DashboardProjectList({
                         placeholder="Search projects..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-zinc-100"
+                        className="w-full pl-10 pr-4 py-2 border border-zinc-800 rounded-xl bg-zinc-900/60 backdrop-blur-md text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500/50 focus:border-emerald-500/50 text-zinc-100 placeholder-zinc-500 transition-all duration-300"
                     />
                 </div>
             </div>
 
             {filteredProjects.length === 0 ? (
-                <div className="text-center py-12 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50">
-                    <p className="text-slate-500 dark:text-zinc-400 mb-4">No projects found.</p>
+                <div className="text-center py-12 rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/20 backdrop-blur-md">
+                    <p className="text-zinc-400 mb-4">No projects found.</p>
                     <Link
                         href="/calculator/map"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-xl transition"
@@ -197,16 +209,20 @@ export default function DashboardProjectList({
                         const ModeIcon = getModeIcon(project.mode);
 
                         return (
-                            <div
+                            <motion.div
                                 key={project.id}
-                                className="flex flex-col bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200/60 dark:border-zinc-800/40 shadow-xs hover:shadow-md transition duration-300 p-5"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                whileHover={{ y: -2, scale: 1.01 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex flex-col bg-zinc-900/60 backdrop-blur-md rounded-2xl border border-zinc-800 shadow-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] hover:border-emerald-500/30 transition-all duration-300 p-5"
                             >
                                 <div className="flex justify-between items-start mb-3">
                                     <div>
-                                        <h3 className="font-semibold text-lg text-slate-900 dark:text-zinc-100 line-clamp-1">
+                                        <h3 className="font-semibold text-lg text-zinc-100 line-clamp-1">
                                             {project.name}
                                         </h3>
-                                        <p className="text-xs text-slate-400 dark:text-zinc-500 mt-0.5">
+                                        <p className="text-xs text-zinc-500 mt-0.5">
                                             Created: {new Date(project.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
@@ -216,67 +232,90 @@ export default function DashboardProjectList({
                                     </span>
                                 </div>
 
-                                <div className="bg-slate-50 dark:bg-zinc-950/50 rounded-xl p-3 space-y-2 mb-4 text-sm">
+                                <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-3 space-y-2 mb-4 text-sm">
                                     <div className="flex justify-between">
-                                        <span className="text-slate-500 dark:text-zinc-400">Area:</span>
-                                        <span className="font-semibold text-slate-800 dark:text-zinc-200">
+                                        <span className="text-zinc-400">Area:</span>
+                                        <span className="font-semibold text-zinc-200">
                                             {convertedArea.toLocaleString(undefined, { maximumFractionDigits: 2 })} {unit === "m2" ? "m²" : unit.toUpperCase()}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-slate-500 dark:text-zinc-400">Perimeter:</span>
-                                        <span className="font-semibold text-slate-800 dark:text-zinc-200">
+                                        <span className="text-zinc-400">Perimeter:</span>
+                                        <span className="font-semibold text-zinc-200">
                                             {project.perimeterM ? `${project.perimeterM.toLocaleString(undefined, { maximumFractionDigits: 2 })} m` : "N/A"}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-slate-500 dark:text-zinc-400">Points:</span>
-                                        <span className="font-semibold text-slate-800 dark:text-zinc-200">
+                                        <span className="text-zinc-400">Points:</span>
+                                        <span className="font-semibold text-zinc-200">
                                             {project.coordinates?.length || 0} vertices
                                         </span>
                                     </div>
                                 </div>
 
                                 {/* Actions Row */}
-                                <div className="mt-auto pt-4 border-t border-slate-100 dark:border-zinc-800/60 flex flex-wrap gap-2 items-center justify-between">
+                                <div className="mt-auto pt-4 border-t border-zinc-800/60 flex flex-wrap gap-2 items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <Link
                                             href={`/calculator/${project.mode}?id=${project.id}`}
-                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold rounded-lg transition"
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-zinc-800 bg-zinc-950/40 hover:bg-zinc-800/60 text-zinc-300 text-xs font-semibold rounded-lg transition"
                                         >
-                                            <HugeiconsIcon icon={MapsLocation01Icon} className="size-3.5" />
+                                            <HugeiconsIcon icon={MapsLocation01Icon} className="size-3.5 text-zinc-400" />
                                             Open
                                         </Link>
 
                                         <button
                                             onClick={() => handleDelete(project.id)}
                                             disabled={loadingProjectId === project.id}
-                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 text-xs font-semibold rounded-lg transition disabled:opacity-50"
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-red-400 hover:bg-red-950/20 text-xs font-semibold rounded-lg transition disabled:opacity-50"
                                         >
-                                            <HugeiconsIcon icon={loadingProjectId === project.id ? LoadingIcon : Delete02Icon} className={`size-3.5 ${loadingProjectId === project.id ? "animate-spin" : ""}`} />
+                                            <HugeiconsIcon icon={loadingProjectId === project.id ? LoadingIcon : Delete02Icon} className={`size-3.5 ${loadingProjectId === project.id ? "animate-spin text-zinc-400" : "text-zinc-500"}`} />
                                             Delete
                                         </button>
                                     </div>
 
                                     <div>
                                         {paid ? (
-                                            <div className="flex items-center gap-1.5">
-                                                <a
-                                                    href={`/api/reports/${project.id}`}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition"
-                                                    title="Download PDF Survey Report"
+                                            <div className="relative">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        e.nativeEvent.stopImmediatePropagation(); // Crucial to prevent global document listener from firing instantly
+                                                        setOpenDropdownId(openDropdownId === project.id ? null : project.id);
+                                                    }}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition shadow-[0_2px_8px_rgba(16,185,129,0.2)]"
                                                 >
                                                     <HugeiconsIcon icon={Download01Icon} className="size-3.5" />
-                                                    PDF Report
-                                                </a>
-                                                <a
-                                                    href={`/api/export/dxf?projectId=${project.id}`}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition"
-                                                    title="Export to CAD DXF"
-                                                >
-                                                    <HugeiconsIcon icon={Download01Icon} className="size-3.5" />
-                                                    DXF CAD
-                                                </a>
+                                                    <span>Export Files</span>
+                                                    <svg className={`size-3 transition-transform ${openDropdownId === project.id ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
+                                                {openDropdownId === project.id && (
+                                                    <div className="absolute right-0 mt-2 w-48 bg-zinc-900/95 backdrop-blur-md border border-zinc-800 rounded-xl py-1.5 shadow-2xl z-20 animate-in fade-in slide-in-from-top-1 duration-150 overflow-hidden">
+                                                        <a
+                                                            href={`/api/reports/${project.id}`}
+                                                            className="flex items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-emerald-500/10 transition-colors"
+                                                            onClick={() => setOpenDropdownId(null)}
+                                                        >
+                                                            <svg className="size-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                            </svg>
+                                                            Download PDF Report
+                                                        </a>
+                                                        <a
+                                                            href={`/api/export/dxf?projectId=${project.id}`}
+                                                            className="flex items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-emerald-500/10 transition-colors"
+                                                            onClick={() => setOpenDropdownId(null)}
+                                                        >
+                                                            <svg className="size-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                                            </svg>
+                                                            Export DXF CAD
+                                                        </a>
+                                                    </div>
+                                                )}
                                             </div>
                                         ) : pending ? (
                                             <button
@@ -298,7 +337,7 @@ export default function DashboardProjectList({
                                         )}
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>

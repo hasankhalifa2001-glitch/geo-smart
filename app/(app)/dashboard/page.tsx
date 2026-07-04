@@ -44,22 +44,40 @@ export default async function DashboardPage() {
     }));
 
     return (
-        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 dark:border-zinc-800/60 pb-5">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-zinc-50 font-sans">
-                        Saved Projects
-                    </h1>
-                    <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
-                        Manage, view, and export your professional survey calculations and maps.
-                    </p>
-                </div>
-            </div>
-
-            <DashboardProjectList
-                initialProjects={serializedProjects}
-                initialTransactions={userTransactions}
+        <div className="flex-1 w-full bg-zinc-950 text-zinc-50 relative overflow-hidden py-8">
+            {/* TECHNICAL GRID & RADIAL BACKGROUND */}
+            {/* Fine Grid Pattern */}
+            <div
+                className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"
             />
+            {/* Major Grid Pattern */}
+            <div
+                className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.04)_1px,transparent_1px)] bg-[size:160px_160px] pointer-events-none"
+            />
+
+            {/* Soft Emerald Radial Gradients for corner/edge glow & depth */}
+            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none" />
+
+            {/* Content Container */}
+            <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-zinc-800/80 pb-5">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-zinc-50 font-sans flex items-center gap-2">
+                            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Saved Projects</span>
+                        </h1>
+                        <p className="text-sm text-zinc-400 mt-1">
+                            Manage, view, and export your professional survey calculations and maps.
+                        </p>
+                    </div>
+                </div>
+
+                <DashboardProjectList
+                    initialProjects={serializedProjects}
+                    initialTransactions={userTransactions}
+                />
+            </div>
         </div>
     );
 }

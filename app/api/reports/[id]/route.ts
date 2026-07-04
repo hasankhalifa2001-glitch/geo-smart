@@ -9,7 +9,10 @@ import { Document, Page, Text, View, StyleSheet, renderToBuffer } from "@react-p
 
 const styles = StyleSheet.create({
     page: {
-        padding: 40,
+        paddingTop: 40,
+        paddingLeft: 40,
+        paddingRight: 40,
+        paddingBottom: 60,
         backgroundColor: "#ffffff",
         fontFamily: "Helvetica",
     },
@@ -118,6 +121,19 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
     },
+    footer: {
+        position: "absolute",
+        bottom: 30,
+        left: 40,
+        right: 40,
+        textAlign: "center",
+        fontSize: 8,
+        color: "#9ca3af",
+        borderTopWidth: 1,
+        borderTopColor: "#e5e7eb",
+        borderTopStyle: "solid",
+        paddingTop: 8,
+    },
 });
 
 interface PDFProps {
@@ -209,7 +225,7 @@ function createReportPDFElement({ project, timestampStr }: PDFProps) {
                 { style: styles.table },
                 React.createElement(
                     View,
-                    { style: styles.tableHeader },
+                    { style: styles.tableHeader, wrap: false },
                     React.createElement(Text, { style: [styles.tableCellHeader, { flex: 0.5 }] }, "Point #"),
                     React.createElement(Text, { style: styles.tableCellHeader }, "Latitude (Y)"),
                     React.createElement(Text, { style: styles.tableCellHeader }, "Longitude (X)")
@@ -217,7 +233,7 @@ function createReportPDFElement({ project, timestampStr }: PDFProps) {
                 ...coordinates.map((coord, idx) =>
                     React.createElement(
                         View,
-                        { key: idx, style: styles.tableRow },
+                        { key: idx, style: styles.tableRow, wrap: false },
                         React.createElement(Text, { style: [styles.tableCell, { flex: 0.5 }] }, `${idx + 1}`),
                         React.createElement(Text, { style: styles.tableCell }, coord[0].toFixed(7)),
                         React.createElement(Text, { style: styles.tableCell }, coord[1].toFixed(7))
@@ -228,9 +244,19 @@ function createReportPDFElement({ project, timestampStr }: PDFProps) {
             // Stamp Placeholder
             React.createElement(
                 View,
-                { style: styles.stampContainer },
+                { style: styles.stampContainer, wrap: false },
                 React.createElement(Text, { style: styles.stampText }, "GEOSMART"),
                 React.createElement(Text, { style: [styles.stampText, { fontSize: 7, marginTop: 4 }] }, "OFFICIAL STAMP")
+            ),
+
+            // Footer (Dynamic Page Numbers)
+            React.createElement(
+                Text,
+                {
+                    style: styles.footer,
+                    render: ({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`,
+                    fixed: true
+                }
             )
         )
     );
