@@ -44,7 +44,7 @@ export function ProfileDropdown() {
                 <HugeiconsIcon
                     icon={ArrowDown01Icon}
                     className={cn(
-                        "size-3.5 text-slate-500 transition-transform duration-200",
+                        "hidden md:block size-3.5 text-slate-500 transition-transform duration-200",
                         dropdownOpen && "rotate-180"
                     )}
                 />
