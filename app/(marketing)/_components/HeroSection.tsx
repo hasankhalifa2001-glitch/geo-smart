@@ -39,16 +39,7 @@ export function HeroSection() {
             >
                 {/* Technical grid + ambient glow background */}
                 <div className="absolute inset-0 max-w-7xl mx-auto h-[700px] pointer-events-none z-0 isolation-isolate">
-                    <div
-                        className="absolute inset-0 opacity-[0.12] dark:opacity-[0.07]"
-                        style={{
-                            backgroundImage:
-                                "linear-gradient(to right, rgb(16, 185, 129) 1px, transparent 1px), linear-gradient(to bottom, rgb(16, 185, 129) 1px, transparent 1px)",
-                            backgroundSize: "45px 45px",
-                            maskImage:
-                                "radial-gradient(circle at center, white 30%, transparent 70%)"
-                        }}
-                    />
+                    <div className="absolute inset-0 opacity-[0.12] dark:opacity-[0.07] hero-grid-pattern" />
                     <motion.div
                         className="absolute inset-0 pointer-events-none z-0 blur-[130px]"
                         style={{ background: glowBackground }}
