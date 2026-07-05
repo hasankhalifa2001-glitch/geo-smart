@@ -30,7 +30,7 @@ export function HeroSection() {
 
     return (
         <div className="relative overflow-hidden">
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 bg-emerald-500/10 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
             <section
                 className="group/hero max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-12 sm:pb-16 text-center relative isolation-isolate"
@@ -38,7 +38,7 @@ export function HeroSection() {
                 onMouseLeave={handleMouseLeave}
             >
                 {/* Technical grid + ambient glow background */}
-                <div className="absolute inset-0 max-w-7xl mx-auto h-[700px] pointer-events-none z-0 isolation-isolate">
+                <div className="absolute inset-0 max-w-7xl mx-auto h-175 pointer-events-none z-0 isolation-isolate">
                     <div className="absolute inset-0 opacity-[0.12] dark:opacity-[0.07] hero-grid-pattern" />
                     <motion.div
                         className="absolute inset-0 pointer-events-none z-0 blur-[130px]"
