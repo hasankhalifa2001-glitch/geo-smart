@@ -1,7 +1,7 @@
 export function DemoSection() {
     return (
-        <section id="demo" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
-            <div className="p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/20 backdrop-blur-md relative overflow-hidden">
+        <section id="demo" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 scroll-mt-20">
+            <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/20 backdrop-blur-md relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none" />
                 <div className="max-w-2xl mx-auto text-center">
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4 flex items-center justify-center gap-2">

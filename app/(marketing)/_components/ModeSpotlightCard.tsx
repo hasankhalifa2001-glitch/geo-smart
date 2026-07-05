@@ -33,7 +33,7 @@ export function ModeSpotlightCard({
 
     return (
         <motion.div
-            className="group relative flex flex-col justify-between overflow-hidden p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 group-hover:border-emerald-500/30 transition-colors duration-300 shadow-sm hover:shadow-emerald-500/5"
+            className="group relative flex flex-col justify-between overflow-hidden p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/40 group-hover:border-emerald-500/30 transition-colors duration-300 shadow-sm hover:shadow-emerald-500/5"
             onMouseMove={handleMouseMove}
             whileHover={{ y: -6, scale: 1.015 }}
             transition={cardHoverTransition}

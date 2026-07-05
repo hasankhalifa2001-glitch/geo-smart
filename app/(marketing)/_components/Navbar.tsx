@@ -40,7 +40,7 @@ export function Navbar() {
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 dark:border-zinc-800/40 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <Logo size="lg" />
+                <Logo size="md" className="sm:text-2xl" />
 
                 {/* Nav links - Center */}
                 <nav className="hidden md:flex items-center gap-8">

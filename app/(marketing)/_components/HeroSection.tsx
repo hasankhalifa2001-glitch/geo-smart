@@ -33,7 +33,7 @@ export function HeroSection() {
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
             <section
-                className="group/hero max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center relative isolation-isolate"
+                className="group/hero max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-12 sm:pb-16 text-center relative isolation-isolate"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
             >
@@ -63,11 +63,11 @@ export function HeroSection() {
                         Next-Gen Surveying & Calculations
                     </div>
 
-                    <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
                         Real-Estate & Survey Calculations Made <RotatingTypewriter />
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Plot property boundaries, calculate exact areas in localized units, compute custom survey geometries, and export professional reports instantly.
                     </p>
 

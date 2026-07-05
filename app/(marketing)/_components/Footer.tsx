@@ -7,7 +7,7 @@ export function Footer() {
                 <div className="flex items-center gap-2">
                     <Logo size="md" />
                 </div>
-                <p className="text-xs text-slate-500 dark:text-zinc-500">
+                <p className="text-xs text-slate-500 dark:text-zinc-500 text-center sm:text-right leading-relaxed max-w-md sm:max-w-none">
                     &copy; {new Date().getFullYear()} GeoSmart. All rights reserved. Professional Real-Estate Surveying Platform.
                 </p>
             </div>

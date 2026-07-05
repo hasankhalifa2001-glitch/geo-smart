@@ -7,7 +7,7 @@ import { ModeSpotlightCard } from "./ModeSpotlightCard";
 export function FeaturesSection() {
     return (
         <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
-            <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
                 <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                     Explore Our Calculation Modes
                 </h2>
