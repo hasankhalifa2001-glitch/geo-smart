@@ -9,7 +9,7 @@ export default function MapProviderToggle() {
     const setMapProvider = useMapStore((s) => s.setMapProvider);
 
     return (
-        <div className="absolute top-4 left-12 z-[1000] flex p-1 rounded-xl bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-md shadow-lg">
+        <div className="absolute top-[72px] left-3 sm:top-4 sm:left-12 z-[1000] flex p-0.5 sm:p-1 rounded-xl bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-md shadow-lg">
             {(["leaflet", "google"] as MapProviderType[]).map((provider) => {
                 const isActive = mapProvider === provider;
                 return (
@@ -18,7 +18,7 @@ export default function MapProviderToggle() {
                         type="button"
                         onClick={() => setMapProvider(provider)}
                         className={cn(
-                            "relative px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors duration-200 outline-none select-none capitalize cursor-pointer",
+                            "relative px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-semibold rounded-lg transition-colors duration-200 outline-none select-none capitalize cursor-pointer",
                             isActive
                                 ? "text-black dark:text-zinc-950"
                                 : "text-zinc-400 hover:text-zinc-200"

@@ -227,7 +227,7 @@ function SelfIntersectionBanner() {
     if (!isSelfIntersecting) return null;
 
     return (
-        <div className="absolute top-4 left-1/2 z-[1000] flex -translate-x-1/2 items-center gap-2 rounded-xl border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 shadow-lg dark:border-red-800 dark:bg-red-950/90 dark:text-red-300">
+        <div className="absolute top-0 inset-x-0 sm:top-4 sm:left-1/2 z-[1000] flex sm:-translate-x-1/2 items-center justify-center gap-2 bg-red-50 dark:bg-red-950/90 border-b border-red-200 dark:border-red-800/50 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium text-red-700 dark:text-red-300 shadow-md sm:rounded-xl sm:border">
             <HugeiconsIcon icon={Alert02Icon} className="size-4 shrink-0" />
             Boundary lines are crossing — please adjust markers
         </div>
@@ -314,7 +314,7 @@ export default function LeafletMap() {
                 type="button"
                 onClick={toggleTileLayer}
                 className={cn(
-                    "absolute top-4 right-4 z-[1000] flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium shadow-lg transition-colors",
+                    "absolute top-3 right-3 sm:top-4 sm:right-4 z-[1000] flex items-center gap-1.5 rounded-xl border p-2 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium shadow-lg transition-colors",
 
                     "bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm",
 
@@ -326,7 +326,9 @@ export default function LeafletMap() {
             >
                 <HugeiconsIcon icon={Layers01Icon} className="size-4" />
 
-                {tileLayer === "osm" ? "Satellite" : "Street Map"}
+                <span className="hidden sm:inline">
+                    {tileLayer === "osm" ? "Satellite" : "Street Map"}
+                </span>
             </button>
         </div>
     );
