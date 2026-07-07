@@ -207,13 +207,13 @@ function GeocodingSearch() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search location…"
-                className="bg-white/95 dark:bg-zinc-900/95 shadow-lg backdrop-blur-sm border-slate-200 dark:border-zinc-700"
+                className="h-9 sm:h-10 text-xs sm:text-sm bg-white/95 dark:bg-zinc-900/95 shadow-lg backdrop-blur-sm border-slate-200 dark:border-zinc-700 rounded-xl"
             />
 
             <Button
                 type="submit"
                 disabled={searching}
-                className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg"
+                className="h-9 w-9 sm:h-10 sm:w-10 shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg rounded-xl flex items-center justify-center p-0"
             >
                 <HugeiconsIcon icon={Search01Icon} className="size-4" />
             </Button>
@@ -227,9 +227,9 @@ function SelfIntersectionBanner() {
     if (!isSelfIntersecting) return null;
 
     return (
-        <div className="absolute top-0 inset-x-0 sm:top-4 sm:left-1/2 z-[1000] flex sm:-translate-x-1/2 items-center justify-center gap-2 bg-red-50 dark:bg-red-950/90 border-b border-red-200 dark:border-red-800/50 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium text-red-700 dark:text-red-300 shadow-md sm:rounded-xl sm:border">
-            <HugeiconsIcon icon={Alert02Icon} className="size-4 shrink-0" />
-            Boundary lines are crossing — please adjust markers
+        <div className="absolute top-16 left-3 right-3 sm:top-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-[1000] flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl border border-red-300 bg-red-50 dark:bg-red-950/90 px-3 py-2 sm:px-4 sm:py-2.5 text-[11px] sm:text-sm font-medium text-red-700 dark:text-red-300 shadow-lg border-red-300 dark:border-red-800">
+            <HugeiconsIcon icon={Alert02Icon} className="size-3.5 sm:size-4 shrink-0" />
+            <span className="leading-snug">Boundary lines are crossing — please adjust markers</span>
         </div>
     );
 }
@@ -314,7 +314,7 @@ export default function LeafletMap() {
                 type="button"
                 onClick={toggleTileLayer}
                 className={cn(
-                    "absolute top-3 right-3 sm:top-4 sm:right-4 z-[1000] flex items-center gap-1.5 rounded-xl border p-2 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium shadow-lg transition-colors",
+                    "absolute top-3 right-3 sm:top-4 sm:right-4 z-[1000] flex items-center gap-1 sm:gap-2 rounded-lg sm:rounded-xl border px-2 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-sm font-medium shadow-lg transition-colors",
 
                     "bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm",
 
@@ -324,11 +324,9 @@ export default function LeafletMap() {
                 )}
                 title="Toggle map layer"
             >
-                <HugeiconsIcon icon={Layers01Icon} className="size-4" />
+                <HugeiconsIcon icon={Layers01Icon} className="size-3.5 sm:size-4" />
 
-                <span className="hidden sm:inline">
-                    {tileLayer === "osm" ? "Satellite" : "Street Map"}
-                </span>
+                <span>{tileLayer === "osm" ? "Satellite" : "Street Map"}</span>
             </button>
         </div>
     );

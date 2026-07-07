@@ -169,8 +169,8 @@ export default function ResultsSidebar() {
     };
 
     return (
-        <aside className="flex h-full w-full shrink-0 flex-col border-l border-slate-200/60 bg-white dark:border-zinc-800/40 dark:bg-[#09090b] sm:w-80 lg:w-96">
-            <Card className="h-full flex flex-col rounded-none border-0 shadow-none ring-0">
+        <aside className="flex w-full shrink-0 flex-col border-l border-slate-200/60 bg-white dark:border-zinc-800/40 dark:bg-[#09090b] sm:w-80 lg:w-96">
+            <Card className="h-full rounded-none border-0 shadow-none ring-0">
                 <CardHeader className="border-b border-slate-200/60 dark:border-zinc-800/40">
                     <CardTitle className="text-lg font-bold">
                         Results
