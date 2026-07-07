@@ -200,7 +200,7 @@ export default function DashboardProjectList({
                     </Link>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
                     {filteredProjects.map((project) => {
                         const paid = isPaid(project.id);
                         const pending = isPending(project.id);
@@ -215,7 +215,8 @@ export default function DashboardProjectList({
                                 animate={{ opacity: 1, y: 0 }}
                                 whileHover={{ y: -2, scale: 1.01 }}
                                 transition={{ duration: 0.2 }}
-                                className="flex flex-col bg-zinc-900/60 backdrop-blur-md rounded-2xl border border-zinc-800 shadow-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] hover:border-emerald-500/30 transition-all duration-300 p-5"
+                                className={`relative flex flex-col bg-zinc-900/60 backdrop-blur-md rounded-2xl border border-zinc-800 shadow-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.08)] hover:border-emerald-500/30 transition-all duration-300 p-5 ${openDropdownId === project.id ? "z-30" : "z-10"
+                                    }`}
                             >
                                 <div className="flex justify-between items-start mb-3">
                                     <div>
@@ -293,7 +294,7 @@ export default function DashboardProjectList({
                                                     </svg>
                                                 </button>
                                                 {openDropdownId === project.id && (
-                                                    <div className="absolute right-0 mt-2 w-48 bg-zinc-900/95 backdrop-blur-md border border-zinc-800 rounded-xl py-1.5 shadow-2xl z-20 animate-in fade-in slide-in-from-top-1 duration-150 overflow-hidden">
+                                                    <div className="absolute right-0 mt-2 w-48 bg-zinc-900/95 backdrop-blur-md border border-zinc-800 rounded-xl py-1.5 shadow-2xl z-20 animate-in fade-in slide-in-from-top-1 duration-150 ">
                                                         <a
                                                             href={`/api/reports/${project.id}`}
                                                             className="flex items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-emerald-500/10 transition-colors"
