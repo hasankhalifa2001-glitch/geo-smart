@@ -81,7 +81,7 @@ function MapCalculatorContent() {
     const [activeTab, setActiveTab] = useState<"map" | "results">("map");
 
     return (
-        <div className="flex h-[calc(100dvh-4rem)] w-full flex-col sm:flex-row relative overflow-hidden">
+        <div className="flex h-[calc(100dvh-4rem)] w-full flex-col sm:flex-row relative ">
             {/* Mobile Tab Switched Navigation */}
             <div className="flex sm:hidden border-b border-slate-200/60 dark:border-zinc-800/40 bg-white dark:bg-[#09090b] sticky top-0 z-20 shrink-0">
                 <button
@@ -124,7 +124,7 @@ function MapCalculatorContent() {
             </div>
 
             <div className={cn(
-                "w-full sm:w-auto shrink-0 flex-col sm:flex min-h-0",
+                "w-full sm:w-auto shrink-0 flex-col sm:flex min-h-0 overflow-y-auto",
                 activeTab === "results" ? "flex flex-1" : "hidden"
             )}>
                 <ResultsSidebar />
