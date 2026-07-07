@@ -5,7 +5,59 @@ import { db } from "@/lib/db";
 import { projects, transactions } from "@/lib/db/schema";
 import { and, eq, or } from "drizzle-orm";
 import React from "react";
-import { Document, Page, Text, View, StyleSheet, renderToBuffer } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, renderToBuffer, Font } from "@react-pdf/renderer";
+import path from "path";
+// @ts-ignore
+import reshaper from "arabic-persian-reshaper";
+// @ts-ignore
+import bidiFactory from "bidi-js";
+
+const bidi = bidiFactory();
+
+Font.register({
+    family: "Tajawal",
+    fonts: [
+        {
+            src: path.join(process.cwd(), "public/fonts/Tajawal-Regular.ttf"),
+            fontWeight: "normal",
+        },
+        {
+            src: path.join(process.cwd(), "public/fonts/Tajawal-Bold.ttf"),
+            fontWeight: "bold",
+        },
+    ],
+});
+
+function fixRTLText(text: string): string {
+    if (!text) return "";
+
+    // 1. Reshape Arabic letters using ArabicShaper
+    // @ts-ignore
+    const shaped = reshaper.ArabicShaper.convertArabic(text);
+
+    // 2. Perform BiDi reordering using LTR base direction
+    const embeddingLevels = bidi.getEmbeddingLevels(shaped, "ltr");
+    const flips = bidi.getReorderSegments(shaped, embeddingLevels);
+
+    const arr = shaped.split("");
+    flips.forEach(([start, end]: [number, number]) => {
+        const segment = arr.slice(start, end + 1).reverse();
+        arr.splice(start, segment.length, ...segment);
+    });
+
+    // Mirror characters in RTL levels (odd level runs)
+    for (let i = 0; i < arr.length; i++) {
+        const level = embeddingLevels.levels[i];
+        if (level % 2 === 1) {
+            const mirrored = bidi.getMirroredCharacter(arr[i]);
+            if (mirrored) {
+                arr[i] = mirrored;
+            }
+        }
+    }
+
+    return arr.join("");
+}
 
 const styles = StyleSheet.create({
     page: {
@@ -14,7 +66,7 @@ const styles = StyleSheet.create({
         paddingRight: 40,
         paddingBottom: 60,
         backgroundColor: "#ffffff",
-        fontFamily: "Helvetica",
+        fontFamily: "Tajawal",
     },
     header: {
         flexDirection: "row",
@@ -172,7 +224,7 @@ function createReportPDFElement({ project, timestampStr }: PDFProps) {
             ),
 
             // Report Title
-            React.createElement(Text, { style: styles.title }, `Survey Calculation Report: ${project.name}`),
+            React.createElement(Text, { style: styles.title }, fixRTLText(`Survey Calculation Report: ${project.name}`)),
 
             // Metadata grid
             React.createElement(
@@ -182,7 +234,7 @@ function createReportPDFElement({ project, timestampStr }: PDFProps) {
                     View,
                     { style: styles.gridItem },
                     React.createElement(Text, { style: styles.label }, "Project Name"),
-                    React.createElement(Text, { style: styles.value }, project.name)
+                    React.createElement(Text, { style: styles.value }, fixRTLText(project.name))
                 ),
                 React.createElement(
                     View,
@@ -306,7 +358,7 @@ export async function GET(
         }
 
         // Generate PDF
-        const timestampStr = new Date().toLocaleString();
+        const timestampStr = fixRTLText(new Date().toLocaleString());
         const pdfBuffer = await renderToBuffer(createReportPDFElement({ project, timestampStr }));
 
         return new Response(new Uint8Array(pdfBuffer), {
