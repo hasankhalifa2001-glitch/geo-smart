@@ -47,7 +47,7 @@ export default function AppLayout({
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-zinc-50 transition-colors duration-300">
       {/* Top Bar */}
-      <header className="sticky top-0 z-40 w-full h-16 border-b border-slate-200/60 dark:border-zinc-800/40 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-6">
+      <header className="sticky top-0 z-[1030] w-full h-16 border-b border-slate-200/60 dark:border-zinc-800/40 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-6">
 
         {/* Left: Logo & Dashboard home */}
         <div className="flex items-center gap-4">
@@ -121,7 +121,7 @@ export default function AppLayout({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 top-16 z-30 bg-slate-950/20 dark:bg-black/40 backdrop-blur-xs md:hidden"
+              className="fixed inset-0 top-16 z-[1010] bg-slate-950/20 dark:bg-black/40 backdrop-blur-xs md:hidden"
             />
 
             {/* Menu Panel */}
@@ -130,7 +130,7 @@ export default function AppLayout({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="fixed inset-x-0 top-16 z-35 bg-white dark:bg-[#09090b] border-b border-slate-200 dark:border-zinc-800/80 shadow-lg md:hidden p-4 flex flex-col gap-2"
+              className="fixed inset-x-0 top-16 z-[1020] bg-white dark:bg-[#09090b] border-b border-slate-200 dark:border-zinc-800/80 shadow-lg md:hidden p-4 flex flex-col gap-2"
             >
               <div className="flex flex-col gap-1.5">
                 <Link

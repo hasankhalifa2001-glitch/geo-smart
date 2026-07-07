@@ -81,7 +81,7 @@ function MapCalculatorContent() {
     const [activeTab, setActiveTab] = useState<"map" | "results">("map");
 
     return (
-        <div className="flex flex-1 min-h-0 w-full flex-col sm:flex-row relative">
+        <div className="flex h-[calc(100dvh-4rem)] w-full flex-col sm:flex-row relative overflow-hidden">
             {/* Mobile Tab Switched Navigation */}
             <div className="flex sm:hidden border-b border-slate-200/60 dark:border-zinc-800/40 bg-white dark:bg-[#09090b] sticky top-0 z-20 shrink-0">
                 <button
@@ -109,7 +109,7 @@ function MapCalculatorContent() {
             </div>
 
             <div className={cn(
-                "relative flex-1 min-h-[50vh] sm:min-h-0",
+                "relative flex-1 min-h-0",
                 activeTab === "map" ? "flex" : "hidden sm:flex"
             )}>
                 <LeafletMap />
